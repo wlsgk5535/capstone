@@ -18,53 +18,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calculator);
 
-        editText1 = (EditText) findViewById(R.id.edit_text1);
-        editText2 = (EditText) findViewById(R.id.edit_text2);
-        button_add = (Button) findViewById(R.id.button_Add);
-        button_sub = (Button) findViewById(R.id.button_Sub);
-        button_mul = (Button) findViewById(R.id.button_Mul);
-        button_div = (Button) findViewById(R.id.button_Div);
-        textResult = (TextView) findViewById(R.id.text_view1);
 
         button_add.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                String number1 = editText1.getText().toString();
-                String number2 = editText2.getText().toString();
-                Double result = Double.parseDouble(number1) + Double.parseDouble(number2);
+            public void onClick(View view) {}
 
-                textResult.setText("Result: " + result.toString());
-            }
         });
-        button_sub.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String number1 = editText1.getText().toString();
-                String number2 = editText2.getText().toString();
-                Double result = Double.parseDouble(number1) - Double.parseDouble(number2);
 
-                textResult.setText("Result: " + result.toString());
-
-            }
-        });
-        button_mul.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String number1 = editText1.getText().toString();
-                String number2 = editText2.getText().toString();
-                Double result = Double.parseDouble(number1) * Double.parseDouble(number2);
-                textResult.setText("Result: " + result.toString());
-            }
-        });
-        button_div.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String number1 = editText1.getText().toString();
-                String number2 = editText2.getText().toString();
-                Double result = Double.parseDouble(number1 )/ Double.parseDouble(number2);
-                textResult.setText("Result: " + result.toString());
-            }
-        });
 
 
     }

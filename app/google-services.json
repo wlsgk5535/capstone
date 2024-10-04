@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "694503342101",
+    "project_id": "fashion-item-system",
+    "storage_bucket": "fashion-item-system.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:694503342101:android:b9367f132ff50fe79d0e1c",
+        "android_client_info": {
+          "package_name": "com.example.calculator"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWsD-XvC5g_IPyHBq_2swBrbqDCiyuLK0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
