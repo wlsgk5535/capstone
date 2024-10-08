@@ -1,12 +1,20 @@
 package com.example.calculator;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,16 +24,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.calculator);
-
-
-        button_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {}
-
-        });
-
-
+        setContentView(R.layout.activity_main);
 
     }
+
+
+
+
 }
