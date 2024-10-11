@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'com.example.calculator'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.example.calculator"
         minSdk 28
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -31,10 +31,12 @@ android {
 
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:33.4.0')
+    implementation 'org.tensorflow:tensorflow-lite:2.9.0' // TensorFlow Lite 최신 버전
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-database:21.0.0'
    // implementation("com.google.firebase:firebase-storage")
     implementation 'com.google.firebase:firebase-storage:21.0.1'
