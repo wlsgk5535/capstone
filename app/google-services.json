@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "694503342101",
+    "firebase_url": "https://fashion-item-system-default-rtdb.firebaseio.com",
     "project_id": "fashion-item-system",
     "storage_bucket": "fashion-item-system.appspot.com"
   },
