@@ -6,44 +6,28 @@ import android.widget.Button;
 import android.provider.MediaStore;
 import android.content.Intent;
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.widget.Button;
-import android.widget.ImageView;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
-
-import android.os.Bundle;
-
-import com.google.firebase.Firebase;
+import android.widget.Toast;
+import android.util.Log;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import org.tensorflow.lite.Interpreter;
 import java.io.File;
 import java.io.IOException;
-import com.google.firebase.FirebaseApp;
-
-// Firebase Storage 관련 import
-
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import android.util.Log;
-
-// 필요한 라이브러리 임포트
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import org.tensorflow.lite.Interpreter;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 
 public class GalleryActivity extends AppCompatActivity {
 
@@ -139,21 +123,26 @@ public class GalleryActivity extends AppCompatActivity {
     private void openGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         galleryLauncher.launch(galleryIntent);
-        //downloadModelFile();
     }
 
-    // Check Permissions
+    // Check Permissions (API 레벨 33 이상에서는 READ_MEDIA_IMAGES 권한을 확인)
     private boolean checkPermissions() {
-        return ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+        } else {
+            return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+        }
     }
 
     // Request Permissions
     private void requestPermissions() {
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                PERMISSIONS_REQUEST_CODE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_CODE);
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_CODE);
+        }
     }
 
     // Handle the permission request result
@@ -164,7 +153,7 @@ public class GalleryActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted
             } else {
-                // Permission denied, handle accordingly
+                Toast.makeText(this, "권한이 필요합니다.", Toast.LENGTH_SHORT).show();
             }
         }
     }
