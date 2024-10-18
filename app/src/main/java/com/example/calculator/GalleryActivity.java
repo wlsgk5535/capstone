@@ -92,6 +92,10 @@ public class GalleryActivity extends AppCompatActivity {
                         Bundle extras = result.getData().getExtras();
                         Bitmap imageBitmap = (Bitmap) extras.get("data");
                         imageView.setImageBitmap(imageBitmap);  // Show captured image
+                        if (imageUri != null) {
+                            uploadImageToFirebaseStorage(imageUri);
+                            loadModelAndRunInference(localFile, imageUri, gender);
+                        }
                     }
                 }
         );
@@ -104,7 +108,8 @@ public class GalleryActivity extends AppCompatActivity {
                         imageUri = result.getData().getData(); // 선택된 이미지 URI 저장
                         imageView.setImageURI(imageUri);  // 이미지 표시
                         if (imageUri != null) {
-                            loadModelAndRunInference(localFile, imageUri,gender);
+                            uploadImageToFirebaseStorage(imageUri);
+                            loadModelAndRunInference(localFile, imageUri, gender);
                         }
                     }
                 }
@@ -169,7 +174,7 @@ public class GalleryActivity extends AppCompatActivity {
         StorageReference storageRef = storage.getReferenceFromUrl("gs://fashion-item-system.appspot.com/" + modelPath);
 
         try {
-             localFile = File.createTempFile("style_model", "tflite");
+            localFile = File.createTempFile("style_model", "tflite");
 
             storageRef.getFile(localFile).addOnSuccessListener(taskSnapshot -> {
                 Log.d("Firebase", "Download successful: " + localFile.getAbsolutePath());
@@ -183,7 +188,7 @@ public class GalleryActivity extends AppCompatActivity {
     }
 
     // TensorFlow Lite 모델 로드 및 이미지 예측 메서드
-// TensorFlow Lite 모델 로드 및 이미지 예측 메서드 (여자 모델)
+
     private void loadModelAndRunInference(File modelFile, Uri imageUri, String gender) {
         try {
             Interpreter tflite = new Interpreter(modelFile); // TFLite 모델 로드
@@ -257,14 +262,45 @@ public class GalleryActivity extends AppCompatActivity {
         return byteBuffer;
     }
 
+    // Firebase Storage에 이미지 업로드하는 메서드
+    private void uploadImageToFirebaseStorage(Uri imageUri) {
+        // Firebase Storage 인스턴스 가져오기
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+
+        // 이미지 파일 경로 설정 (예: images/filename.jpg)
+        String fileName = "images/" + System.currentTimeMillis() + ".jpg"; // 현재 시간으로 파일 이름 생성
+        StorageReference imageRef = storageRef.child(fileName);
+
+        // 이미지 업로드
+        imageRef.putFile(imageUri)
+                        .
+
+                addOnSuccessListener(taskSnapshot ->
+
+                {
+                    // 업로드 성공
+                    Log.d("Firebase", "Image upload successful");
+                    // 업로드된 파일의 다운로드 URL을 가져오기
+                    imageRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
+                        Log.d("Firebase", "Download URL: " + downloadUri.toString());
+                        // 여기서 다운로드 URL을 사용하거나 저장 가능
+                    });
+                })
+                        .
+
+                addOnFailureListener(exception ->
+
+                {
+                    // 업로드 실패
+                    Log.d("Firebase", "Image upload failed", exception);
 
 
-
-
+                });
+    }
 
 
 }
-
 
 
 
