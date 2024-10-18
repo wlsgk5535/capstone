@@ -9,11 +9,15 @@ import android.view.View;
 import android.app.Application;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.util.Log;
 
 
 
 public class GenderActivity extends AppCompatActivity {
+
+     RadioGroup radioGroupGender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,16 +36,33 @@ public class GenderActivity extends AppCompatActivity {
         if (FirebaseApp.getApps(this).isEmpty()) {
             FirebaseApp.initializeApp(this,options);
         }
-
+        radioGroupGender = findViewById(R.id.radioGroup_gender);
         Button nextButton = findViewById(R.id.button_next);
 
-        // 버튼 클릭 시 CameraGalleryActivity로 이동
+
+
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // CameraGalleryActivity로 이동하는 인텐트
-                Intent intent = new Intent(GenderActivity.this, GalleryActivity.class);
-                startActivity(intent);
+                // 라디오 버튼 선택 여부 확인
+                int selectedId = radioGroupGender.getCheckedRadioButtonId();
+
+                if (selectedId == -1) {
+                    // 선택된 라디오 버튼이 없는 경우 로그 출력
+                    Log.e("GenderActivity", "성별을 선택하지 않았습니다.");
+                } else {
+                    // 성별 정보 가져오기
+                    String gender = (selectedId == R.id.radio_male) ? "male" : "female";
+                    Log.d("GenderActivity", "선택된 성별: " + gender);
+
+                    // Intent에 성별 정보를 추가하여 GalleryActivity로 이동
+                    Intent intent = new Intent(GenderActivity.this, GalleryActivity.class);
+                    intent.putExtra("gender", gender);  // 성별 정보 추가
+                    startActivity(intent);
+
+                    // 디버깅을 위해 Intent 전송 직전 로그 추가
+                    Log.d("GenderActivity", "Intent 전송 완료, 성별: " + gender);
+                }
             }
         });
 

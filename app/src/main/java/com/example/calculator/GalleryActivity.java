@@ -54,6 +54,9 @@ public class GalleryActivity extends AppCompatActivity {
     // ActivityResultLauncher for Camera and Gallery
     private ActivityResultLauncher<Intent> cameraLauncher;
     private ActivityResultLauncher<Intent> galleryLauncher;
+    File localFile;
+    String gender;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,11 @@ public class GalleryActivity extends AppCompatActivity {
         if (FirebaseApp.getApps(this).isEmpty()) {
             FirebaseApp.initializeApp(this);
         }
+
+        // 이전 Activity에서 성별 정보 가져오기
+        gender = getIntent().getStringExtra("gender");
+        // 성별에 따라 모델 파일 다운로드
+        downloadModelFile(gender);
 
         // ImageView and Buttons
         imageView = findViewById(R.id.imageView);
@@ -111,7 +119,9 @@ public class GalleryActivity extends AppCompatActivity {
 
                         imageUri = result.getData().getData(); // 선택된 이미지 URI 저장
                         imageView.setImageURI(imageUri);  // 이미지 표시
-                        downloadModelFile();
+                        if (imageUri != null) {
+                            loadModelAndRunInference(localFile, imageUri,gender);
+                        }
                     }
                 }
         );
@@ -160,34 +170,32 @@ public class GalleryActivity extends AppCompatActivity {
     }
 
     // Firebase Storage에서 모델 파일을 다운로드하는 메서드
-    public void downloadModelFile() {
-        // Firebase Storage 인스턴스 가져오기
+
+    public void downloadModelFile(String gender) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl("gs://fashion-item-system.appspot.com/style_model_Man_resnet_finetune_new_35.tflite");
+        String modelPath = gender.equals("male")
+                ? "style_model_Man_resnet_finetune_new_35.tflite"
+                : "style_model_resnet_finetune_new_women.tflite";
+
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://fashion-item-system.appspot.com/" + modelPath);
 
         try {
-            // 임시 파일 생성
-            File localFile = File.createTempFile("style_model", "tflite");
+             localFile = File.createTempFile("style_model", "tflite");
 
-            // 파일 다운로드
             storageRef.getFile(localFile).addOnSuccessListener(taskSnapshot -> {
                 Log.d("Firebase", "Download successful: " + localFile.getAbsolutePath());
-                // 모델 다운로드 후 이미지 예측 수행 (예시로 imageUri 사용)
-                if (imageUri != null) {
-                    loadModelAndRunInference(localFile, imageUri); // 다운로드 후 이미지 예측 수행
-                }
 
             }).addOnFailureListener(exception -> {
                 Log.d("Firebase", "Download failed", exception);
             });
         } catch (IOException e) {
-            // 예외 처리
             e.printStackTrace();
         }
     }
 
     // TensorFlow Lite 모델 로드 및 이미지 예측 메서드
-    private void loadModelAndRunInference(File modelFile, Uri imageUri) {
+// TensorFlow Lite 모델 로드 및 이미지 예측 메서드 (여자 모델)
+    private void loadModelAndRunInference(File modelFile, Uri imageUri, String gender) {
         try {
             Interpreter tflite = new Interpreter(modelFile); // TFLite 모델 로드
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
@@ -195,11 +203,21 @@ public class GalleryActivity extends AppCompatActivity {
 
             ByteBuffer inputBuffer = convertBitmapToByteBuffer(resizedBitmap);
 
-            float[][] output = new float[1][4]; // Output array size (adjust based on your model output size)
+            // 여자와 남자 모델에 따라 다른 출력 크기 및 라벨 설정
+            float[][] output;
+            String[] labels;
+
+            if (gender.equals("male")) {
+                output = new float[1][4]; // 남자 모델의 출력 크기 (4 클래스)
+                labels = new String[]{"businesscasual", "casual", "dandy", "street"}; // 남자용 라벨
+            } else {
+                output = new float[1][6]; // 여자 모델의 출력 크기 (6 클래스)
+                labels = new String[]{"businesscasual", "casual", "chic", "girlish", "romantic", "street"}; // 여자용 라벨
+            }
+
             tflite.run(inputBuffer, output);
 
             // 결과 처리
-            String[] labels = {"businesscasual", "casual", "dandy", "street"}; // 실제 라벨에 맞게 수정
             int maxIndex = getMaxIndex(output[0]);
             Log.d("TensorFlowLite", "Predicted label: " + labels[maxIndex] + " (" + output[0][maxIndex] * 100 + "%)");
 
@@ -209,6 +227,20 @@ public class GalleryActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    // 최대값 인덱스를 가져오는 메서드
+    private int getMaxIndex(float[] probabilities) {
+        int maxIndex = 0;
+        float maxProb = probabilities[0];
+        for (int i = 1; i < probabilities.length; i++) {
+            if (probabilities[i] > maxProb) {
+                maxProb = probabilities[i];
+                maxIndex = i;
+            }
+        }
+        return maxIndex;
+    }
+
 
     private ByteBuffer convertBitmapToByteBuffer(Bitmap bitmap) {
         ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * 224 * 224 * 3); // 이미지 크기에 맞게 조정
@@ -238,18 +270,7 @@ public class GalleryActivity extends AppCompatActivity {
 
 
 
-    // 결과 배열에서 최댓값의 인덱스를 구하는 메서드
-    private int getMaxIndex(float[] arr) {
-        int index = 0;
-        float max = arr[0];
-        for (int i = 1; i < arr.length; i++) {
-            if (arr[i] > max) {
-                max = arr[i];
-                index = i;
-            }
-        }
-        return index;
-    }
+
 
 
 
