@@ -84,6 +84,12 @@ public class GalleryActivity extends AppCompatActivity {
                         Bundle extras = result.getData().getExtras();
                         Bitmap imageBitmap = (Bitmap) extras.get("data");
                         imageView.setImageBitmap(imageBitmap);  // Show captured image
+
+                        // 이미지 파일을 SimilarityActivity로 넘기는 코드 추가
+                        Uri imageUri = getImageUriFromBitmap(imageBitmap);  // Bitmap을 URI로 변환하는 메서드 필요
+                        Intent intent = new Intent(GalleryActivity.this, Similarity.class);
+                        intent.putExtra("imageUri", imageUri.toString());
+                        startActivity(intent);
                     }
                 }
         );
@@ -96,6 +102,11 @@ public class GalleryActivity extends AppCompatActivity {
                         imageUri = result.getData().getData(); // 선택된 이미지 URI 저장
                         imageView.setImageURI(imageUri);  // 이미지 표시
                         downloadModelFile();
+
+                        // 이미지 URI를 SimilarityActivity로 넘기는 코드 추가
+                        Intent intent = new Intent(GalleryActivity.this, Similarity.class);
+                        intent.putExtra("imageUri", imageUri.toString());
+                        startActivity(intent);
                     }
                 }
         );
@@ -230,5 +241,11 @@ public class GalleryActivity extends AppCompatActivity {
             }
         }
         return index;
+    }
+
+    // Bitmap을 URI로 변환하는 메서드 (카메라 이미지)
+    private Uri getImageUriFromBitmap(Bitmap bitmap) {
+        String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "CapturedImage", null);
+        return Uri.parse(path);
     }
 }
