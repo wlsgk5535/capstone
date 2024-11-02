@@ -1,0 +1,224 @@
+[debug] [2024-10-23T07:20:07.551Z] ----------------------------------------------------------------------
+[debug] [2024-10-23T07:20:07.555Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\AHJ\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only functions
+[debug] [2024-10-23T07:20:07.555Z] CLI Version:   13.22.1
+[debug] [2024-10-23T07:20:07.555Z] Platform:      win32
+[debug] [2024-10-23T07:20:07.555Z] Node Version:  v20.18.0
+[debug] [2024-10-23T07:20:07.555Z] Time:          Wed Oct 23 2024 16:20:07 GMT+0900 (대한민국 표준시)
+[debug] [2024-10-23T07:20:07.556Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-10-23T07:20:07.630Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-10-23T07:20:07.631Z] > authorizing via signed-in user (hyejeong244@gmail.com)
+[debug] [2024-10-23T07:20:07.631Z] [iam] checking project fashion-item-system for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2024-10-23T07:20:07.632Z] Checked if tokens are valid: true, expires at: 1729670422483
+[debug] [2024-10-23T07:20:07.632Z] Checked if tokens are valid: true, expires at: 1729670422483
+[debug] [2024-10-23T07:20:07.634Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/fashion-item-system:testIamPermissions [none]
+[debug] [2024-10-23T07:20:07.634Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/fashion-item-system:testIamPermissions x-goog-quota-user=projects/fashion-item-system
+[debug] [2024-10-23T07:20:07.634Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/fashion-item-system:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2024-10-23T07:20:08.444Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/fashion-item-system:testIamPermissions 200
+[debug] [2024-10-23T07:20:08.444Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/fashion-item-system:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2024-10-23T07:20:08.445Z] Checked if tokens are valid: true, expires at: 1729670422483
+[debug] [2024-10-23T07:20:08.445Z] Checked if tokens are valid: true, expires at: 1729670422483
+[debug] [2024-10-23T07:20:08.445Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/fashion-item-system/serviceAccounts/fashion-item-system@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2024-10-23T07:20:08.445Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/fashion-item-system/serviceAccounts/fashion-item-system@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2024-10-23T07:20:09.430Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/fashion-item-system/serviceAccounts/fashion-item-system@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2024-10-23T07:20:09.430Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/fashion-item-system/serviceAccounts/fashion-item-system@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[info] 
+[info] === Deploying to 'fashion-item-system'...
+[info] 
+[info] i  deploying functions 
+[debug] [2024-10-23T07:20:09.436Z] Checked if tokens are valid: true, expires at: 1729670422483
+[debug] [2024-10-23T07:20:09.436Z] Checked if tokens are valid: true, expires at: 1729670422483
+[debug] [2024-10-23T07:20:09.437Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/fashion-item-system [none]
+[debug] [2024-10-23T07:20:09.858Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/fashion-item-system 200
+[debug] [2024-10-23T07:20:09.858Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/fashion-item-system {"projectId":"fashion-item-system","projectNumber":"694503342101","displayName":"fashion item system","name":"projects/fashion-item-system","resources":{"hostingSite":"fashion-item-system","realtimeDatabaseInstance":"fashion-item-system-default-rtdb","storageBucket":"fashion-item-system.appspot.com","locationId":"asia-northeast3"},"state":"ACTIVE","etag":"1_a6436219-da09-4da9-b5dc-8cf73974728f"}
+[info] i  functions: preparing codebase default for deployment 
+[info] i  functions: preparing codebase similarity-function for deployment 
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[debug] [2024-10-23T07:20:09.860Z] Checked if tokens are valid: true, expires at: 1729670422483
+[debug] [2024-10-23T07:20:09.860Z] Checked if tokens are valid: true, expires at: 1729670422483
+[debug] [2024-10-23T07:20:09.861Z] Checked if tokens are valid: true, expires at: 1729670422483
+[debug] [2024-10-23T07:20:09.861Z] Checked if tokens are valid: true, expires at: 1729670422483
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[debug] [2024-10-23T07:20:09.861Z] Checked if tokens are valid: true, expires at: 1729670422483
+[debug] [2024-10-23T07:20:09.861Z] Checked if tokens are valid: true, expires at: 1729670422483
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2024-10-23T07:20:09.862Z] Checked if tokens are valid: true, expires at: 1729670422483
+[debug] [2024-10-23T07:20:09.862Z] Checked if tokens are valid: true, expires at: 1729670422483
+[debug] [2024-10-23T07:20:09.862Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/cloudfunctions.googleapis.com [none]
+[debug] [2024-10-23T07:20:09.862Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/fashion-item-system
+[debug] [2024-10-23T07:20:09.863Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/runtimeconfig.googleapis.com [none]
+[debug] [2024-10-23T07:20:09.863Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/fashion-item-system
+[debug] [2024-10-23T07:20:09.864Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/cloudbuild.googleapis.com [none]
+[debug] [2024-10-23T07:20:09.864Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/cloudbuild.googleapis.com x-goog-quota-user=projects/fashion-item-system
+[debug] [2024-10-23T07:20:09.865Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/artifactregistry.googleapis.com [none]
+[debug] [2024-10-23T07:20:09.866Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/artifactregistry.googleapis.com x-goog-quota-user=projects/fashion-item-system
+[debug] [2024-10-23T07:20:10.932Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/runtimeconfig.googleapis.com 200
+[debug] [2024-10-23T07:20:10.932Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2024-10-23T07:20:10.945Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/artifactregistry.googleapis.com 200
+[debug] [2024-10-23T07:20:10.945Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/artifactregistry.googleapis.com [omitted]
+[info] +  artifactregistry: required API artifactregistry.googleapis.com is enabled 
+[debug] [2024-10-23T07:20:10.976Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/cloudbuild.googleapis.com 200
+[debug] [2024-10-23T07:20:10.976Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/cloudbuild.googleapis.com [omitted]
+[info] +  functions: required API cloudbuild.googleapis.com is enabled 
+[debug] [2024-10-23T07:20:10.984Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/cloudfunctions.googleapis.com 200
+[debug] [2024-10-23T07:20:10.984Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/cloudfunctions.googleapis.com [omitted]
+[info] +  functions: required API cloudfunctions.googleapis.com is enabled 
+[debug] [2024-10-23T07:20:10.985Z] Checked if tokens are valid: true, expires at: 1729670422483
+[debug] [2024-10-23T07:20:10.985Z] Checked if tokens are valid: true, expires at: 1729670422483
+[debug] [2024-10-23T07:20:10.985Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/fashion-item-system/adminSdkConfig [none]
+[debug] [2024-10-23T07:20:12.148Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/fashion-item-system/adminSdkConfig 200
+[debug] [2024-10-23T07:20:12.148Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/fashion-item-system/adminSdkConfig {"projectId":"fashion-item-system","databaseURL":"https://fashion-item-system-default-rtdb.firebaseio.com","storageBucket":"fashion-item-system.appspot.com","locationId":"asia-northeast3"}
+[debug] [2024-10-23T07:20:12.149Z] Checked if tokens are valid: true, expires at: 1729670422483
+[debug] [2024-10-23T07:20:12.149Z] Checked if tokens are valid: true, expires at: 1729670422483
+[debug] [2024-10-23T07:20:12.149Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/fashion-item-system/configs [none]
+[debug] [2024-10-23T07:20:12.587Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/fashion-item-system/configs 200
+[debug] [2024-10-23T07:20:12.587Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/fashion-item-system/configs {}
+[debug] [2024-10-23T07:20:12.589Z] Customer code is not Node
+[debug] [2024-10-23T07:20:12.589Z] Validating python source
+[debug] [2024-10-23T07:20:12.589Z] Building python source
+[info] i  functions: Loading and analyzing source code for codebase default to determine what to deploy 
+[debug] [2024-10-23T07:20:12.590Z] Could not find functions.yaml. Must use http discovery
+[debug] [2024-10-23T07:20:12.600Z] Running command with virtualenv: command="C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions\venv\Scripts\activate.bat", args=["","&&","python.exe","-c","\"import firebase_functions; import os; print(os.path.dirname(firebase_functions.__file__))\""]
+[debug] [2024-10-23T07:20:12.855Z] stdout: C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions\venv\Lib\site-packages\firebase_functions
+
+[debug] [2024-10-23T07:20:12.865Z] Running admin server with args: ["python.exe","\"C:\\Users\\AHJ\\AndroidStudioProjects\\capstone_test\\capstone\\functions\\venv\\Lib\\site-packages\\firebase_functions\\private\\serving.py\""] and env: {"FIREBASE_CONFIG":"{\"projectId\":\"fashion-item-system\",\"databaseURL\":\"https://fashion-item-system-default-rtdb.firebaseio.com\",\"storageBucket\":\"fashion-item-system.appspot.com\",\"locationId\":\"asia-northeast3\"}","GCLOUD_PROJECT":"fashion-item-system","GOOGLE_CLOUD_QUOTA_PROJECT":"fashion-item-system","ADMIN_PORT":"8081"} in C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions
+[debug] [2024-10-23T07:20:12.865Z] Running command with virtualenv: command="C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions\venv\Scripts\activate.bat", args=["","&&","python.exe","\"C:\\Users\\AHJ\\AndroidStudioProjects\\capstone_test\\capstone\\functions\\venv\\Lib\\site-packages\\firebase_functions\\private\\serving.py\""]
+[error] Traceback (most recent call last):
+
+[error]   File "C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions\venv\Lib\site-packages\firebase_functions\private\serving.py", line 30, in <module>
+    from firebase_functions.private import manifest as _manifest
+  File "C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions\venv\Lib\site-packages\firebase_functions\private\manifest.py", line 25, in <module>
+    import firebase_functions.private.util as _util
+  File "C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions\venv\Lib\site-packages\firebase_functions\private\util.py", line 25, in <module>
+    from functions_framework import logging as _logging
+  File "C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions\venv\Lib\site-packages\functions_framework\__init__.py", line 37, in <module>
+    from functions_framework import (
+    ...<4 lines>...
+    )
+  File "C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions\venv\Lib\site-packages\functions_framework\_function_registry.py", line 19, in <module>
+    from re import T
+ImportError: cannot import name 'T' from 're' (C:\Users\AHJ\AppData\Local\Programs\Python\Python313\Lib\re\__init__.py)
+
+[debug] [2024-10-23T07:20:14.015Z] Error: spawn "C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions\venv\Scripts\activate.bat" ENOENT
+    at notFoundError (C:\Users\AHJ\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\cross-spawn\lib\enoent.js:6:26)
+    at verifyENOENT (C:\Users\AHJ\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\cross-spawn\lib\enoent.js:40:16)
+    at cp.emit (C:\Users\AHJ\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\cross-spawn\lib\enoent.js:27:25)
+    at ChildProcess._handle.onexit (node:internal/child_process:294:12)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2024-10-23T08:05:25.660Z] ----------------------------------------------------------------------
+[debug] [2024-10-23T08:05:25.663Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\AHJ\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only functions
+[debug] [2024-10-23T08:05:25.663Z] CLI Version:   13.22.1
+[debug] [2024-10-23T08:05:25.664Z] Platform:      win32
+[debug] [2024-10-23T08:05:25.664Z] Node Version:  v20.18.0
+[debug] [2024-10-23T08:05:25.664Z] Time:          Wed Oct 23 2024 17:05:25 GMT+0900 (대한민국 표준시)
+[debug] [2024-10-23T08:05:25.664Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-10-23T08:05:25.746Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-10-23T08:05:25.747Z] > authorizing via signed-in user (hyejeong244@gmail.com)
+[debug] [2024-10-23T08:05:25.747Z] [iam] checking project fashion-item-system for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2024-10-23T08:05:25.748Z] Checked if tokens are valid: true, expires at: 1729673460619
+[debug] [2024-10-23T08:05:25.748Z] Checked if tokens are valid: true, expires at: 1729673460619
+[debug] [2024-10-23T08:05:25.749Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/fashion-item-system:testIamPermissions [none]
+[debug] [2024-10-23T08:05:25.750Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/fashion-item-system:testIamPermissions x-goog-quota-user=projects/fashion-item-system
+[debug] [2024-10-23T08:05:25.750Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/fashion-item-system:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2024-10-23T08:05:26.099Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/fashion-item-system:testIamPermissions 200
+[debug] [2024-10-23T08:05:26.099Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/fashion-item-system:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2024-10-23T08:05:26.100Z] Checked if tokens are valid: true, expires at: 1729673460619
+[debug] [2024-10-23T08:05:26.100Z] Checked if tokens are valid: true, expires at: 1729673460619
+[debug] [2024-10-23T08:05:26.100Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/fashion-item-system/serviceAccounts/fashion-item-system@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2024-10-23T08:05:26.100Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/fashion-item-system/serviceAccounts/fashion-item-system@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2024-10-23T08:05:27.096Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/fashion-item-system/serviceAccounts/fashion-item-system@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2024-10-23T08:05:27.096Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/fashion-item-system/serviceAccounts/fashion-item-system@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[info] 
+[info] === Deploying to 'fashion-item-system'...
+[info] 
+[info] i  deploying functions 
+[debug] [2024-10-23T08:05:27.106Z] Checked if tokens are valid: true, expires at: 1729673460619
+[debug] [2024-10-23T08:05:27.106Z] Checked if tokens are valid: true, expires at: 1729673460619
+[debug] [2024-10-23T08:05:27.106Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/fashion-item-system [none]
+[debug] [2024-10-23T08:05:27.544Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/fashion-item-system 200
+[debug] [2024-10-23T08:05:27.545Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/fashion-item-system {"projectId":"fashion-item-system","projectNumber":"694503342101","displayName":"fashion item system","name":"projects/fashion-item-system","resources":{"hostingSite":"fashion-item-system","realtimeDatabaseInstance":"fashion-item-system-default-rtdb","storageBucket":"fashion-item-system.appspot.com","locationId":"asia-northeast3"},"state":"ACTIVE","etag":"1_a6436219-da09-4da9-b5dc-8cf73974728f"}
+[info] i  functions: preparing codebase default for deployment 
+[info] i  functions: preparing codebase similarity-function for deployment 
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[debug] [2024-10-23T08:05:27.550Z] Checked if tokens are valid: true, expires at: 1729673460619
+[debug] [2024-10-23T08:05:27.550Z] Checked if tokens are valid: true, expires at: 1729673460619
+[debug] [2024-10-23T08:05:27.550Z] Checked if tokens are valid: true, expires at: 1729673460619
+[debug] [2024-10-23T08:05:27.550Z] Checked if tokens are valid: true, expires at: 1729673460619
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[debug] [2024-10-23T08:05:27.553Z] Checked if tokens are valid: true, expires at: 1729673460619
+[debug] [2024-10-23T08:05:27.553Z] Checked if tokens are valid: true, expires at: 1729673460619
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2024-10-23T08:05:27.554Z] Checked if tokens are valid: true, expires at: 1729673460619
+[debug] [2024-10-23T08:05:27.554Z] Checked if tokens are valid: true, expires at: 1729673460619
+[debug] [2024-10-23T08:05:27.554Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/cloudfunctions.googleapis.com [none]
+[debug] [2024-10-23T08:05:27.554Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/fashion-item-system
+[debug] [2024-10-23T08:05:27.556Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/runtimeconfig.googleapis.com [none]
+[debug] [2024-10-23T08:05:27.556Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/fashion-item-system
+[debug] [2024-10-23T08:05:27.557Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/cloudbuild.googleapis.com [none]
+[debug] [2024-10-23T08:05:27.557Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/cloudbuild.googleapis.com x-goog-quota-user=projects/fashion-item-system
+[debug] [2024-10-23T08:05:27.559Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/artifactregistry.googleapis.com [none]
+[debug] [2024-10-23T08:05:27.559Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/artifactregistry.googleapis.com x-goog-quota-user=projects/fashion-item-system
+[debug] [2024-10-23T08:05:27.998Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/cloudbuild.googleapis.com 200
+[debug] [2024-10-23T08:05:27.998Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/cloudbuild.googleapis.com [omitted]
+[info] +  functions: required API cloudbuild.googleapis.com is enabled 
+[debug] [2024-10-23T08:05:28.635Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/cloudfunctions.googleapis.com 200
+[debug] [2024-10-23T08:05:28.635Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/cloudfunctions.googleapis.com [omitted]
+[info] +  functions: required API cloudfunctions.googleapis.com is enabled 
+[debug] [2024-10-23T08:05:28.637Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/runtimeconfig.googleapis.com 200
+[debug] [2024-10-23T08:05:28.638Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2024-10-23T08:05:28.641Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/artifactregistry.googleapis.com 200
+[debug] [2024-10-23T08:05:28.641Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fashion-item-system/services/artifactregistry.googleapis.com [omitted]
+[info] +  artifactregistry: required API artifactregistry.googleapis.com is enabled 
+[debug] [2024-10-23T08:05:28.642Z] Checked if tokens are valid: true, expires at: 1729673460619
+[debug] [2024-10-23T08:05:28.642Z] Checked if tokens are valid: true, expires at: 1729673460619
+[debug] [2024-10-23T08:05:28.642Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/fashion-item-system/adminSdkConfig [none]
+[debug] [2024-10-23T08:05:29.563Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/fashion-item-system/adminSdkConfig 200
+[debug] [2024-10-23T08:05:29.563Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/fashion-item-system/adminSdkConfig {"projectId":"fashion-item-system","databaseURL":"https://fashion-item-system-default-rtdb.firebaseio.com","storageBucket":"fashion-item-system.appspot.com","locationId":"asia-northeast3"}
+[debug] [2024-10-23T08:05:29.564Z] Checked if tokens are valid: true, expires at: 1729673460619
+[debug] [2024-10-23T08:05:29.564Z] Checked if tokens are valid: true, expires at: 1729673460619
+[debug] [2024-10-23T08:05:29.565Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/fashion-item-system/configs [none]
+[debug] [2024-10-23T08:05:29.998Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/fashion-item-system/configs 200
+[debug] [2024-10-23T08:05:29.998Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/fashion-item-system/configs {}
+[debug] [2024-10-23T08:05:30.002Z] Customer code is not Node
+[debug] [2024-10-23T08:05:30.004Z] Validating python source
+[debug] [2024-10-23T08:05:30.005Z] Building python source
+[info] i  functions: Loading and analyzing source code for codebase default to determine what to deploy 
+[debug] [2024-10-23T08:05:30.009Z] Could not find functions.yaml. Must use http discovery
+[debug] [2024-10-23T08:05:30.033Z] Running command with virtualenv: command="C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions\venv\Scripts\activate.bat", args=["","&&","python.exe","-c","\"import firebase_functions; import os; print(os.path.dirname(firebase_functions.__file__))\""]
+[debug] [2024-10-23T08:05:30.309Z] stdout: C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions\venv\lib\site-packages\firebase_functions
+
+[debug] [2024-10-23T08:05:30.321Z] Running admin server with args: ["python.exe","\"C:\\Users\\AHJ\\AndroidStudioProjects\\capstone_test\\capstone\\functions\\venv\\lib\\site-packages\\firebase_functions\\private\\serving.py\""] and env: {"FIREBASE_CONFIG":"{\"projectId\":\"fashion-item-system\",\"databaseURL\":\"https://fashion-item-system-default-rtdb.firebaseio.com\",\"storageBucket\":\"fashion-item-system.appspot.com\",\"locationId\":\"asia-northeast3\"}","GCLOUD_PROJECT":"fashion-item-system","GOOGLE_CLOUD_QUOTA_PROJECT":"fashion-item-system","ADMIN_PORT":"8081"} in C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions
+[debug] [2024-10-23T08:05:30.321Z] Running command with virtualenv: command="C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions\venv\Scripts\activate.bat", args=["","&&","python.exe","\"C:\\Users\\AHJ\\AndroidStudioProjects\\capstone_test\\capstone\\functions\\venv\\lib\\site-packages\\firebase_functions\\private\\serving.py\""]
+[error] Traceback (most recent call last):
+  File "C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions\venv\lib\site-packages\firebase_functions\private\serving.py", line 30, in <module>
+    from firebase_functions.private import manifest as _manifest
+  File "C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions\venv\lib\site-packages\firebase_functions\private\manifest.py", line 25, in <module>
+    import firebase_functions.private.util as _util
+  File "C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions\venv\lib\site-packages\firebase_functions\private\util.py", line 27, in <module>
+
+[error]     from firebase_admin import app_check as _app_check
+  File "C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions\venv\lib\site-packages\firebase_admin\app_check.py", line 18, in <module>
+    import jwt
+  File "C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions\venv\lib\site-packages\jwt\__init__.py", line 1, in <module>
+    from .api_jwk import PyJWK, PyJWKSet
+  File "C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions\venv\lib\site-packages\jwt\api_jwk.py", line 7, in <module>
+    from .algorithms import get_default_algorithms, has_crypto, requires_cryptography
+  File "C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions\venv\lib\site-packages\jwt\algorithms.py", line 11, in <module>
+    from .utils import (
+  File "C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions\venv\lib\site-packages\jwt\utils.py", line 7, in <module>
+    from cryptography.hazmat.primitives.asymmetric.ec import EllipticCurve
+  File "C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions\venv\lib\site-packages\cryptography\hazmat\primitives\asymmetric\ec.py", line 11, in <module>
+    from cryptography.exceptions import UnsupportedAlgorithm, _Reasons
+  File "C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions\venv\lib\site-packages\cryptography\exceptions.py", line 9, in <module>
+    from cryptography.hazmat.bindings._rust import exceptions as rust_exceptions
+ImportError: PyO3 modules compiled for CPython 3.8 or older may only be initialized once per interpreter process
+
+[debug] [2024-10-23T08:05:32.488Z] Error: spawn "C:\Users\AHJ\AndroidStudioProjects\capstone_test\capstone\functions\venv\Scripts\activate.bat" ENOENT
+    at notFoundError (C:\Users\AHJ\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\cross-spawn\lib\enoent.js:6:26)
+    at verifyENOENT (C:\Users\AHJ\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\cross-spawn\lib\enoent.js:40:16)
+    at cp.emit (C:\Users\AHJ\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\cross-spawn\lib\enoent.js:27:25)
+    at ChildProcess._handle.onexit (node:internal/child_process:294:12)
+[error] 
+[error] Error: An unexpected error has occurred.
