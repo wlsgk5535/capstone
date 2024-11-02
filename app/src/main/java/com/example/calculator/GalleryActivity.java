@@ -1,6 +1,8 @@
 package com.example.calculator;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Build;
 import android.widget.ImageView;
 import android.widget.Button;
 import android.provider.MediaStore;
@@ -10,7 +12,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -18,28 +19,16 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import android.widget.Toast;
 import android.util.Log;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.tensorflow.lite.Interpreter;
 
 import java.io.DataOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import android.graphics.BitmapFactory;
-import android.os.Build;
-import android.content.ContentResolver;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.ByteArrayOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Scanner; // 추가된 부분
+import java.util.Scanner;
 
 public class GalleryActivity extends AppCompatActivity {
 
@@ -56,10 +45,6 @@ public class GalleryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery_acttivity);
-
-        if (FirebaseApp.getApps(this).isEmpty()) {
-            FirebaseApp.initializeApp(this);
-        }
 
         // GenderActivity에서 전달된 성별 정보 받기
         Intent intent = getIntent();
@@ -104,7 +89,7 @@ public class GalleryActivity extends AppCompatActivity {
                         imageView.setImageBitmap(imageBitmap);  // Show captured image
 
                         // Capture and send image to Flask server
-                        sendImageToFlaskServer(imageBitmap, gender); // 추가된 부분
+                        sendImageToFlaskServer(imageBitmap, gender);
                     }
                 }
         );
@@ -113,14 +98,12 @@ public class GalleryActivity extends AppCompatActivity {
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-
                         imageUri = result.getData().getData(); // 선택된 이미지 URI 저장
                         imageView.setImageURI(imageUri);  // 이미지 표시
-                        downloadModelFile();
 
                         try {
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                            sendImageToFlaskServer(bitmap, gender); // 추가된 부분
+                            sendImageToFlaskServer(bitmap, gender);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -175,7 +158,6 @@ public class GalleryActivity extends AppCompatActivity {
             }
         }
     }
-
 
     private void sendImageToFlaskServer(Bitmap bitmap, String gender) {
         new Thread(() -> {
@@ -239,82 +221,5 @@ public class GalleryActivity extends AppCompatActivity {
                 Log.e("FlaskServer", "Error: " + e.getMessage());
             }
         }).start();
-    }
-
-
-
-
-
-
-    // Firebase Storage에서 모델 파일을 다운로드하는 메서드
-    public void downloadModelFile() {
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl("gs://fashion-item-system.appspot.com/style_model_Man_resnet_finetune_new_35.tflite");
-
-        try {
-            File localFile = File.createTempFile("style_model", "tflite");
-
-            storageRef.getFile(localFile).addOnSuccessListener(taskSnapshot -> {
-                Log.d("Firebase", "Download successful: " + localFile.getAbsolutePath());
-                if (imageUri != null) {
-                    loadModelAndRunInference(localFile, imageUri);
-                }
-
-            }).addOnFailureListener(exception -> {
-                Log.d("Firebase", "Download failed", exception);
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // TensorFlow Lite 모델 로드 및 이미지 예측 메서드
-    private void loadModelAndRunInference(File modelFile, Uri imageUri) {
-        try {
-            Interpreter tflite = new Interpreter(modelFile); // TFLite 모델 로드
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-            Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 224, 224, true); // 이미지 크기 조정 (모델과 일치하게)
-
-            ByteBuffer inputBuffer = convertBitmapToByteBuffer(resizedBitmap);
-
-            float[][] output = new float[1][4]; // Output array size (adjust based on your model output size)
-            tflite.run(inputBuffer, output);
-
-            String[] labels = {"businesscasual", "casual", "dandy", "street"}; // 실제 라벨에 맞게 수정
-            int maxIndex = getMaxIndex(output[0]);
-            Log.d("TensorFlowLite", "Predicted label: " + labels[maxIndex] + " (" + output[0][maxIndex] + ")");
-            // 결과를 UI에 업데이트 하거나 다른 처리 수행 가능
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Bitmap을 ByteBuffer로 변환하는 메서드
-    private ByteBuffer convertBitmapToByteBuffer(Bitmap bitmap) {
-        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * 224 * 224 * 3);
-        byteBuffer.order(ByteOrder.nativeOrder());
-
-        int[] intValues = new int[224 * 224];
-        bitmap.getPixels(intValues, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
-
-        for (int i = 0; i < intValues.length; i++) {
-            int pixelValue = intValues[i];
-            byteBuffer.putFloat(((pixelValue >> 16) & 0xFF) / 255.0f); // R
-            byteBuffer.putFloat(((pixelValue >> 8) & 0xFF) / 255.0f); // G
-            byteBuffer.putFloat((pixelValue & 0xFF) / 255.0f); // B
-        }
-        return byteBuffer;
-    }
-
-    // Output에서 최대값 인덱스를 찾는 메서드
-    private int getMaxIndex(float[] output) {
-        int maxIndex = 0;
-        for (int i = 1; i < output.length; i++) {
-            if (output[i] > output[maxIndex]) {
-                maxIndex = i;
-            }
-        }
-        return maxIndex;
     }
 }

@@ -15,4 +15,3 @@ dependencyResolutionManagement {
 rootProject.name = "Calculator"
 include ':app'
 include ':lib'
-include ':openCV'
