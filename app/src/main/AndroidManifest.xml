@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -27,15 +28,6 @@
         <activity
             android:name=".ResultActivity"
             android:exported="false" />
-        <activity
-            android:name=".Similarity"
-            android:exported="false"
-            android:label="@string/title_activity_similarity"
-            android:theme="@style/Theme.Calculator" />
-
-
-
-
         <activity
             android:name=".GenderActivity"
             android:exported="true">

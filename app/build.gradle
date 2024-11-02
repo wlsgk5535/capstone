@@ -36,6 +36,7 @@ android {
     }
     buildFeatures {
         compose true
+        buildConfig true
     }
     buildFeatures {
         buildConfig = true
@@ -68,17 +69,15 @@ dependencies {
     implementation 'androidx.compose.ui:ui-graphics'
     implementation 'androidx.compose.ui:ui-tooling-preview'
     implementation 'androidx.compose.material3:material3'
-    implementation project(':opencv')
     implementation 'androidx.activity:activity:1.9.3'
+    implementation project(':openCV')
+    //OkHttp 라이브러리(HTTP 클라이언트)
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+
     androidTestImplementation platform('androidx.compose:compose-bom:2024.04.01')
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
     implementation 'com.github.bumptech.glide:glide:4.12.0'
-
-
-    // implementation("com.google.firebase:firebase-storage")
-    implementation 'com.google.mediapipe:mediapipe:0.10.2'
-
     implementation 'com.google.firebase:firebase-storage:21.0.1'
     implementation 'com.google.firebase:firebase-auth:23.0.0'
     implementation 'com.google.firebase:firebase-ml-modeldownloader:25.0.0'
@@ -93,4 +92,5 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0' // JSON 변환용
 }
+
 apply plugin: 'com.google.gms.google-services'

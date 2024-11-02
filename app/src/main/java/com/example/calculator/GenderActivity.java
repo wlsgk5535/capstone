@@ -52,7 +52,7 @@ public class GenderActivity extends AppCompatActivity {
                     Log.e("GenderActivity", "성별을 선택하지 않았습니다.");
                 } else {
                     // 성별 정보 가져오기
-                    String gender = (selectedId == R.id.radio_male) ? "male" : "female";
+                    String gender = (selectedId == R.id.radio_male) ? "Men" : "Women";
                     Log.d("GenderActivity", "선택된 성별: " + gender);
 
                     // Intent에 성별 정보를 추가하여 GalleryActivity로 이동
