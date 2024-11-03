@@ -36,6 +36,7 @@ public class GalleryActivity extends AppCompatActivity {
     private ImageView imageView;
     private Uri imageUri;
     private String gender; // 성별 정보를 저장할 변수
+    private String sim_filename; //유사한 이미지 파일 이름
 
     // ActivityResultLauncher for Camera and Gallery
     private ActivityResultLauncher<Intent> cameraLauncher;
@@ -168,7 +169,8 @@ public class GalleryActivity extends AppCompatActivity {
                 byte[] imageData = baos.toByteArray();
 
                 // Flask 서버 URL 설정
-                URL url = new URL("http://172.30.1.53:5000/upload");
+                //URL url = new URL("http://172.30.1.53:5000/upload");
+                URL url = new URL("http://172.30.1.97:5000/upload");//본인 ip로 바꾸기
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=boundary");
@@ -206,8 +208,19 @@ public class GalleryActivity extends AppCompatActivity {
                         JSONObject jsonResponse = new JSONObject(response.toString());
                         String predictedClass = jsonResponse.getString("predicted_class");
                         String filename = jsonResponse.getString("filename");
+                        // .jpg 확장자를 제거하여 숫자만 남기기
+                        if (filename.endsWith(".jpg")) {
+                            sim_filename = filename.substring(0, filename.length() - 4);
+                        }
+
                         Log.d("FlaskServer", "Received Predicted Class: " + predictedClass);
                         Log.d("FlaskServer", "Received Filename: " + filename);
+                        // ResultActivity를 시작하고 예측된 클래스와 sim_filename 전달
+                        Intent intent = new Intent(GalleryActivity.this, ResultActivity.class);
+                        intent.putExtra("predicted_class", predictedClass); // 예측된 클래스 추가
+                        intent.putExtra("sim_filename", sim_filename); // sim_filename 추가
+                        startActivity(intent); // ResultActivity 시작
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                         Log.e("FlaskServer", "JSON Parsing Error: " + e.getMessage());

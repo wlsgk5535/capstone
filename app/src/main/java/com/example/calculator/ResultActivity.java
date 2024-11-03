@@ -24,6 +24,11 @@ public class ResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+        // Intent에서 sim_filename 받기
+        String predictedClass = getIntent().getStringExtra("predicted_class");
+        String simFilename = getIntent().getStringExtra("sim_filename");
+        Log.d("ResultActivity", "받은 predicted_class: " + predictedClass);
+        Log.d("ResultActivity", "받은 sim_filename: " + simFilename);
 
         // XML 파일에 정의된 RecyclerView와 연결
         recyclerView = findViewById(R.id.recycler_view);
@@ -34,7 +39,7 @@ public class ResultActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         // Activity 시작 시 서버로 데이터 가져오기 요청
-        fetchData();
+        fetchData(simFilename);
     }
 
     // 서버 응답을 받은 후 데이터를 ResultAdapter에 설정하는 메서드
@@ -47,8 +52,8 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     // 서버에서 데이터를 가져오는 메서드
-    private void fetchData() {
-        String imageName = "30119"; // 하드코딩된 이미지 ID
+    private void fetchData(String imageName) {
+        //String imageName = "30119"; // 하드코딩된 이미지 ID
         String pageUrl = "https://www.musinsa.com/app/styles/views/" + imageName;
         ImageNameRequest request = new ImageNameRequest(imageName, pageUrl);
 
@@ -57,14 +62,15 @@ public class ResultActivity extends AppCompatActivity {
 
         // OkHttpClient 설정
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(40, TimeUnit.SECONDS) // 연결 타임아웃 60초
-                .readTimeout(40, TimeUnit.SECONDS) // 읽기 타임아웃 60초
-                .writeTimeout(40, TimeUnit.SECONDS) // 쓰기 타임아웃 60초
+                .connectTimeout(80, TimeUnit.SECONDS) // 연결 타임아웃 60초
+                .readTimeout(80, TimeUnit.SECONDS) // 읽기 타임아웃 60초
+                .writeTimeout(80, TimeUnit.SECONDS) // 쓰기 타임아웃 60초
                 .build();
 
         // Retrofit 설정
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:5000/")
+                .baseUrl("http://172.30.1.97:5000/")//본인 ip로 바꾸기(이건 실제 기기인 경우의 ip)
+                //.baseUrl("http://10.0.2.2:5000/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
