@@ -1,6 +1,9 @@
 package com.example.calculator;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 public class ResultActivity extends AppCompatActivity {
     private RecyclerView recyclerView;    // 서버 응답 데이터를 표시할 RecyclerView
     private ResultAdapter adapter;        // RecyclerView에 연결할 어댑터
-
+    private String predictedClass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +43,20 @@ public class ResultActivity extends AppCompatActivity {
 
         // Activity 시작 시 서버로 데이터 가져오기 요청
         fetchData(simFilename);
+
+        // PerfumeRecommend로 이동하는 버튼 리스너 추가
+        Button startPerfumeRecommendButton = findViewById(R.id.btn_start_perfume_recommend);
+        startPerfumeRecommendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // PerfumeRecommend로 이동하며 predictedClass 전달
+                Intent intent = new Intent(ResultActivity.this, PerfumeRecommend.class);
+                intent.putExtra("predicted_class", predictedClass);
+                startActivity(intent);
+                finish();
+
+            }
+        });
     }
 
     // 서버 응답을 받은 후 데이터를 ResultAdapter에 설정하는 메서드
@@ -49,6 +66,7 @@ public class ResultActivity extends AppCompatActivity {
         // 어댑터의 setItems 메서드를 통해 RecyclerView에 데이터 업데이트
         adapter.setItems(items);
         Log.d("ResultActivity", "Items set in adapter: " + items.size());  // 데이터가 어댑터에 설정됐는지 로그 확인
+
     }
 
     // 서버에서 데이터를 가져오는 메서드
@@ -62,13 +80,14 @@ public class ResultActivity extends AppCompatActivity {
 
         // OkHttpClient 설정
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(80, TimeUnit.SECONDS) // 연결 타임아웃 60초
-                .readTimeout(80, TimeUnit.SECONDS) // 읽기 타임아웃 60초
-                .writeTimeout(80, TimeUnit.SECONDS) // 쓰기 타임아웃 60초
+                .connectTimeout(60, TimeUnit.SECONDS) // 연결 타임아웃 60초
+                .readTimeout(60, TimeUnit.SECONDS) // 읽기 타임아웃 60초
+                .writeTimeout(60, TimeUnit.SECONDS) // 쓰기 타임아웃 60초
                 .build();
 
         // Retrofit 설정
         Retrofit retrofit = new Retrofit.Builder()
+                //.baseUrl("http://192.168.0.32:5000/")
                 .baseUrl("http://172.30.1.97:5000/")//본인 ip로 바꾸기(이건 실제 기기인 경우의 ip)
                 //.baseUrl("http://10.0.2.2:5000/")
                 .client(okHttpClient)
@@ -86,6 +105,7 @@ public class ResultActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     // 서버 응답 성공 시
                     handleServerResponse(response.body());
+
                 } else {
                     Log.d("ResultActivity", "서버 응답 오류");
                 }

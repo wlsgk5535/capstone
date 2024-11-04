@@ -170,7 +170,8 @@ public class GalleryActivity extends AppCompatActivity {
 
                 // Flask 서버 URL 설정
                 //URL url = new URL("http://172.30.1.53:5000/upload");
-                URL url = new URL("http://172.30.1.97:5000/upload");//본인 ip로 바꾸기
+                //URL url = new URL("http://192.168.0.32:5000/upload");//본인 ip로 바꾸기
+                URL url = new URL("http://172.30.1.97:5000/upload");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=boundary");

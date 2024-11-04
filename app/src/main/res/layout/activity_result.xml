@@ -7,6 +7,12 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <Button
+        android:id="@+id/btn_start_perfume_recommend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Recommend Perfume" />
+
     <TextView
         android:id="@+id/tv_result"
         android:layout_width="match_parent"
@@ -20,4 +26,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"/>
+
 </LinearLayout>
