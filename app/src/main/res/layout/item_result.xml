@@ -17,6 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Product URL"
+        android:autoLink="web"
+        android:textIsSelectable="true"
         android:textSize="16sp"/>
 
     <TextView
