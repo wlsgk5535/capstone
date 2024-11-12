@@ -2,7 +2,10 @@ package com.example.calculator;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.os.Build;
+import android.os.Environment;
 import android.widget.ImageView;
 import android.widget.Button;
 import android.provider.MediaStore;
@@ -17,6 +20,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+
 import android.widget.Toast;
 import android.util.Log;
 
@@ -24,10 +29,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.ByteArrayOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class GalleryActivity extends AppCompatActivity {
@@ -37,6 +46,7 @@ public class GalleryActivity extends AppCompatActivity {
     private Uri imageUri;
     private String gender; // 성별 정보를 저장할 변수
     private String sim_filename; //유사한 이미지 파일 이름
+    private Uri photoUri;
 
     // ActivityResultLauncher for Camera and Gallery
     private ActivityResultLauncher<Intent> cameraLauncher;
@@ -84,13 +94,16 @@ public class GalleryActivity extends AppCompatActivity {
         cameraLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                        Bundle extras = result.getData().getExtras();
-                        Bitmap imageBitmap = (Bitmap) extras.get("data");
-                        imageView.setImageBitmap(imageBitmap);  // Show captured image
-
-                        // Capture and send image to Flask server
-                        sendImageToFlaskServer(imageBitmap, gender);
+                    if (result.getResultCode() == RESULT_OK) {
+                        try {
+                            Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
+                            // 회전이 필요한 경우 회전 후 이미지 적용
+                            imageBitmap = rotateImageIfRequired(imageBitmap, photoUri);
+                            imageView.setImageBitmap(imageBitmap); // Show captured image
+                            sendImageToFlaskServer(imageBitmap, gender); // Send image to Flask server
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
         );
@@ -117,9 +130,56 @@ public class GalleryActivity extends AppCompatActivity {
     private void openCamera() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (cameraIntent.resolveActivity(getPackageManager()) != null) {
-            cameraLauncher.launch(cameraIntent);
+            // 고해상도 이미지를 저장할 파일 URI 생성
+            File photoFile = createImageFile();
+            if (photoFile != null) {
+                photoUri = FileProvider.getUriForFile(this, "com.example.calculator.fileprovider", photoFile);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                cameraLauncher.launch(cameraIntent);
+            }
         }
     }
+
+    private File createImageFile() {
+        // 파일 이름 생성 (날짜를 기반으로)
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = null;
+        try {
+            // 임시 파일 생성
+            image = File.createTempFile(
+                    imageFileName,  /* 파일 이름 */
+                    ".jpg",         /* 파일 확장자 */
+                    storageDir      /* 저장할 디렉토리 */
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return image;
+    }
+
+    private Bitmap rotateImageIfRequired(Bitmap img, Uri selectedImage) throws IOException {
+        ExifInterface exif = new ExifInterface(getContentResolver().openInputStream(selectedImage));
+        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                return rotateImage(img, 90);
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                return rotateImage(img, 180);
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                return rotateImage(img, 270);
+            default:
+                return img;
+        }
+    }
+
+    private Bitmap rotateImage(Bitmap img, int degree) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degree);
+        return Bitmap.createBitmap(img, 0, 0, img.getWidth(), img.getHeight(), matrix, true);
+    }
+
 
     // Open Gallery
     private void openGallery() {
@@ -171,7 +231,7 @@ public class GalleryActivity extends AppCompatActivity {
                 // Flask 서버 URL 설정
                 //URL url = new URL("http://172.30.1.53:5000/upload");
                 //URL url = new URL("http://192.168.0.32:5000/upload");//본인 ip로 바꾸기
-                URL url = new URL("http://172.30.1.97:5000/upload");
+                URL url = new URL("http://192.168.0.57:5000/upload");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=boundary");
