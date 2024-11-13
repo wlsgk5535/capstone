@@ -4,7 +4,7 @@ import java.util.List;
 public class ResponseData {
     private String message;
     private List<Item> items;
-
+    private String filename;
     public String getMessage() {
         return message;
     }
@@ -19,5 +19,8 @@ public class ResponseData {
 
     public void setItems(List<Item> items) {
         this.items = items;
+    }
+    public String getFilename() {
+        return filename;
     }
 }

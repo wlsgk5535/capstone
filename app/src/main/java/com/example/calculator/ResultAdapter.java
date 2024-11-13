@@ -9,8 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide; // Glide 라이브러리로 이미지 로드
-
 import java.util.ArrayList;
 import java.util.List;
 import android.util.Log;

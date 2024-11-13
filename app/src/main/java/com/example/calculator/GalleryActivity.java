@@ -45,7 +45,11 @@ public class GalleryActivity extends AppCompatActivity {
     private ImageView imageView;
     private Uri imageUri;
     private String gender; // 성별 정보를 저장할 변수
-    private String sim_filename; //유사한 이미지 파일 이름
+    private String sim_filename; // 유사한 이미지 파일 이름
+    private ImageView similarImageView;
+    private String predictedClass; // 예측된 클래스 저장 변수
+    private Button itemButton; // Result로 이동 버튼
+
     private Uri photoUri;
 
     // ActivityResultLauncher for Camera and Gallery
@@ -64,8 +68,13 @@ public class GalleryActivity extends AppCompatActivity {
 
         // ImageView and Buttons
         imageView = findViewById(R.id.imageView);
+        similarImageView = findViewById(R.id.similar_image_view);
         Button cameraButton = findViewById(R.id.button_camera);
         Button galleryButton = findViewById(R.id.button_gallery);
+        itemButton = findViewById(R.id.button_item); // 새로 추가한 버튼
+
+        // 초기에는 Result 버튼을 비활성화
+        itemButton.setEnabled(false);
 
         // Initialize ActivityResultLaunchers
         setupActivityResultLaunchers();
@@ -86,6 +95,14 @@ public class GalleryActivity extends AppCompatActivity {
             } else {
                 requestPermissions();
             }
+        });
+
+        // Set up Result button listener
+        itemButton.setOnClickListener(v -> {
+            Intent resultIntent = new Intent(GalleryActivity.this, ResultActivity.class);
+            resultIntent.putExtra("predicted_class", predictedClass); // 예측된 클래스 전달
+            resultIntent.putExtra("sim_filename", sim_filename); // sim_filename 전달
+            startActivity(resultIntent);
         });
     }
 
@@ -231,7 +248,7 @@ public class GalleryActivity extends AppCompatActivity {
                 // Flask 서버 URL 설정
                 //URL url = new URL("http://172.30.1.53:5000/upload");
                 //URL url = new URL("http://192.168.0.32:5000/upload");//본인 ip로 바꾸기
-                URL url = new URL("http://192.168.0.57:5000/upload");
+                URL url = new URL("http://192.168.0.93:5000/upload"); //본인 ip로 바꾸기
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=boundary");
@@ -267,7 +284,7 @@ public class GalleryActivity extends AppCompatActivity {
 
                     try {
                         JSONObject jsonResponse = new JSONObject(response.toString());
-                        String predictedClass = jsonResponse.getString("predicted_class");
+                        predictedClass = jsonResponse.getString("predicted_class");
                         String filename = jsonResponse.getString("filename");
                         // .jpg 확장자를 제거하여 숫자만 남기기
                         if (filename.endsWith(".jpg")) {
@@ -276,11 +293,17 @@ public class GalleryActivity extends AppCompatActivity {
 
                         Log.d("FlaskServer", "Received Predicted Class: " + predictedClass);
                         Log.d("FlaskServer", "Received Filename: " + filename);
-                        // ResultActivity를 시작하고 예측된 클래스와 sim_filename 전달
-                        Intent intent = new Intent(GalleryActivity.this, ResultActivity.class);
-                        intent.putExtra("predicted_class", predictedClass); // 예측된 클래스 추가
-                        intent.putExtra("sim_filename", sim_filename); // sim_filename 추가
-                        startActivity(intent); // ResultActivity 시작
+
+                        // Glide로 유사 이미지 로드
+                        runOnUiThread(() -> {
+                            String imageURL = "http://192.168.0.93:5000/get_image/" + filename;
+                            GlideApp.with(this)
+                                    .load(imageURL)
+                                    .into(similarImageView);
+
+                            // Result 버튼 활성화
+                            itemButton.setEnabled(true);
+                        });
 
                     } catch (JSONException e) {
                         e.printStackTrace();

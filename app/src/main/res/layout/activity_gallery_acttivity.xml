@@ -19,9 +19,34 @@
         android:text="Open Gallery"
         android:layout_marginTop="16dp" />
 
-    <ImageView
-        android:id="@+id/imageView"
+    <!-- Horizontal LinearLayout to place ImageViews side by side -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:scaleType="centerCrop" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="350dp"
+            android:layout_weight="1"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/similar_image_view"
+            android:layout_width="0dp"
+            android:layout_height="350dp"
+            android:layout_weight="1"
+            android:contentDescription="Similar Fashion Item Image"
+            android:scaleType="centerCrop" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="end"
+        android:text="Recommend Item" />
 </LinearLayout>

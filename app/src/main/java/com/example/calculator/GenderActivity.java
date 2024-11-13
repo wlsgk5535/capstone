@@ -6,10 +6,10 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.content.Intent;
 import android.view.View;
-import android.app.Application;
+
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import android.widget.RadioButton;
+
 import android.widget.RadioGroup;
 import android.util.Log;
 

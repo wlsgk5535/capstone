@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,7 +17,7 @@ import okhttp3.OkHttpClient;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
+import android.widget.Toast;
 public class ResultActivity extends AppCompatActivity {
     private RecyclerView recyclerView;    // 서버 응답 데이터를 표시할 RecyclerView
     private ResultAdapter adapter;        // RecyclerView에 연결할 어댑터
@@ -35,11 +34,11 @@ public class ResultActivity extends AppCompatActivity {
 
         // XML 파일에 정의된 RecyclerView와 연결
         recyclerView = findViewById(R.id.recycler_view);
-
         // RecyclerView 설정
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ResultAdapter();
         recyclerView.setAdapter(adapter);
+
 
         // Activity 시작 시 서버로 데이터 가져오기 요청
         fetchData(simFilename);
@@ -60,14 +59,30 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     // 서버 응답을 받은 후 데이터를 ResultAdapter에 설정하는 메서드
+// 서버 응답을 받은 후 데이터를 ResultAdapter에 설정하는 메서드
     private void handleServerResponse(ResponseData responseData) {
+        if (responseData == null || responseData.getItems() == null) {
+            Log.e("ResultActivity", "서버 응답 또는 항목 목록이 null입니다.");
+            Toast.makeText(this, "서버에서 데이터를 가져오지 못했습니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         List<Item> items = responseData.getItems();
+
+        // 항목 목록이 비어 있는지 확인
+        if (items.isEmpty()) {
+            Log.e("ResultActivity", "서버 응답 목록이 비어 있습니다.");
+            Toast.makeText(this, "서버에서 빈 데이터를 받았습니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         // 어댑터의 setItems 메서드를 통해 RecyclerView에 데이터 업데이트
         adapter.setItems(items);
         Log.d("ResultActivity", "Items set in adapter: " + items.size());  // 데이터가 어댑터에 설정됐는지 로그 확인
 
+
     }
+
 
     // 서버에서 데이터를 가져오는 메서드
     private void fetchData(String imageName) {
@@ -87,8 +102,8 @@ public class ResultActivity extends AppCompatActivity {
 
         // Retrofit 설정
         Retrofit retrofit = new Retrofit.Builder()
-                //.baseUrl("http://192.168.0.32:5000/")
-                .baseUrl("http://172.30.1.97:5000/")//본인 ip로 바꾸기(이건 실제 기기인 경우의 ip)
+                .baseUrl("http://192.168.0.93:5000/")
+                //.baseUrl("http://172.30.1.97:5000/")//본인 ip로 바꾸기(이건 실제 기기인 경우의 ip)
                 //.baseUrl("http://10.0.2.2:5000/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
