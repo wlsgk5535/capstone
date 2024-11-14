@@ -40,7 +40,17 @@
             android:layout_weight="1"
             android:contentDescription="Similar Fashion Item Image"
             android:scaleType="centerCrop" />
+
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView_predictedClass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="예측된 스타일: "
+        android:textSize="16sp"
+        android:textColor="@android:color/black" />
 
     <Button
         android:id="@+id/button_item"

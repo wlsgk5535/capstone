@@ -22,6 +22,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import android.widget.TextView;
 import android.widget.Toast;
 import android.util.Log;
 
@@ -49,6 +50,7 @@ public class GalleryActivity extends AppCompatActivity {
     private ImageView similarImageView;
     private String predictedClass; // 예측된 클래스 저장 변수
     private Button itemButton; // Result로 이동 버튼
+    private TextView predictedClassTextView;
 
     private Uri photoUri;
 
@@ -72,6 +74,7 @@ public class GalleryActivity extends AppCompatActivity {
         Button cameraButton = findViewById(R.id.button_camera);
         Button galleryButton = findViewById(R.id.button_gallery);
         itemButton = findViewById(R.id.button_item); // 새로 추가한 버튼
+        predictedClassTextView = findViewById(R.id.textView_predictedClass);
 
         // 초기에는 Result 버튼을 비활성화
         itemButton.setEnabled(false);
@@ -300,6 +303,8 @@ public class GalleryActivity extends AppCompatActivity {
                             GlideApp.with(this)
                                     .load(imageURL)
                                     .into(similarImageView);
+
+                            predictedClassTextView.setText("예측된 스타일: " + predictedClass);
 
                             // Result 버튼 활성화
                             itemButton.setEnabled(true);
